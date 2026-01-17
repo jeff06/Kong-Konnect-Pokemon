@@ -1,0 +1,6 @@
+@Kong_Konnect_Pokemon_HostAddress = http://localhost:5006
+
+GET {{Kong_Konnect_Pokemon_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

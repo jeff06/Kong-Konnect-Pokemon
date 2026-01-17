@@ -1,0 +1,13 @@
+**/.bin/
+**/.obj/
+**/bin/
+**/obj/
+.git/
+.gitignore
+.vs/
+.vscode/
+[Bb]in/
+[Oo]bj/
+dockerfile
+Dockerfile
+.dockerignore
