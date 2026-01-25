@@ -22,6 +22,15 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
+
+# Generate a self-signed certificate for development/demonstration
+# In a production environment, you should use a proper certificate
+USER root
+RUN apt-get update && apt-get install -y openssl && \
+    openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365 -nodes -subj "/C=US/ST=State/L=City/O=Organization/OU=Unit/CN=localhost" && \
+    openssl pkcs12 -export -out aspnetapp.pfx -inkey key.pem -in cert.pem -password pass:password && \
+    chown $APP_UID:$APP_UID aspnetapp.pfx
+
 COPY --from=publish /app/publish .
 USER $APP_UID
 ENTRYPOINT ["dotnet", "Kong-Konnect-Pokemon.dll"]
