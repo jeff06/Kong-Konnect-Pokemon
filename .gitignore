@@ -89,3 +89,9 @@ nunit-agent.log
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+
+# Kong creds
+.env
+cluster.crt
+cluster.key

@@ -12,26 +12,25 @@ services:
 
   kong-gateway:
     image: kong/kong-gateway:3.13
+    volumes:
+      - ./cluster.crt:/etc/kong/cluster.crt
+      - ./cluster.key:/etc/kong/cluster.key
     ports:
       - "8000:8000"
+      - "8100:8100"
       - "8443:8443"
     environment:
       KONG_ROLE: data_plane
       KONG_DATABASE: "off"
       KONG_VITALS: "off"
       KONG_CLUSTER_MTLS: pki
-      KONG_CLUSTER_CONTROL_PLANE: id.us.cp.konghq.com:443
-      KONG_CLUSTER_SERVER_NAME: id.us.cp.konghq.com
-      KONG_CLUSTER_TELEMETRY_ENDPOINT: id.us.tp.konghq.com:443
-      KONG_CLUSTER_TELEMETRY_SERVER_NAME: id.us.tp.konghq.com
-      KONG_CLUSTER_CERT: |
-        -----BEGIN CERTIFICATE-----
-        Certificat
-        -----END CERTIFICATE-----
-      KONG_CLUSTER_CERT_KEY: |
-        -----BEGIN PRIVATE KEY-----
-        Private key
-        -----END PRIVATE KEY-----
+      KONG_CLUSTER_CONTROL_PLANE: ${KONG_CP_ID}.us.cp.konghq.com:443
+      KONG_CLUSTER_SERVER_NAME: ${KONG_CP_ID}.us.cp.konghq.com
+      KONG_CLUSTER_TELEMETRY_ENDPOINT: ${KONG_CP_ID}.us.tp.konghq.com:443
+      KONG_CLUSTER_TELEMETRY_SERVER_NAME: ${KONG_CP_ID}.us.tp.konghq.com
+      KONG_CLUSTER_CERT: /etc/kong/cluster.crt
+      KONG_CLUSTER_CERT_KEY: /etc/kong/cluster.key
       KONG_LUA_SSL_TRUSTED_CERTIFICATE: system
       KONG_KONNECT_MODE: "on"
       KONG_ROUTER_FLAVOR: expressions
+      KONG_STATUS_LISTEN: 0.0.0.0:8100 ssl
