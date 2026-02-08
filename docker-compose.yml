@@ -11,10 +11,9 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
 
   kong-gateway:
-    image: kong/kong-gateway:3.13
-    volumes:
-      - ./cluster.crt:/etc/kong/cluster.crt
-      - ./cluster.key:/etc/kong/cluster.key
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
       - "8100:8100"
