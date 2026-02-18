@@ -90,6 +90,11 @@ nunit-agent.log
 .idea/
 *.sln.iml
 
+# tofu
+*.tfstate
+*.tfstate.*
+/cac/**/.terraform*
+
 
 # Kong creds
 .env
